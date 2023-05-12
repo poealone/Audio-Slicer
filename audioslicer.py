@@ -1,16 +1,12 @@
 from pydub import AudioSegment
-from pydub.export import wav
 import os
 
 def slice_audio(file_path, slice_duration):
     # Load the audio file
     audio = AudioSegment.from_file(file_path)
 
-    # Get the duration of the audio in milliseconds
-    audio_duration = len(audio)
-
     # Calculate the number of slices needed
-    num_slices = audio_duration // slice_duration
+    num_slices = len(audio) // (slice_duration * 1000)
 
     # Create a directory to store the sliced audio files
     output_dir = 'sliced_audio'
@@ -19,7 +15,7 @@ def slice_audio(file_path, slice_duration):
     # Slice the audio into segments
     for i in range(num_slices):
         # Calculate the start and end times for the slice
-        start_time = i * slice_duration * 1000  # Convert to milliseconds
+        start_time = i * slice_duration * 1000
         end_time = (i + 1) * slice_duration * 1000
 
         # Extract the slice from the audio
@@ -33,8 +29,9 @@ def slice_audio(file_path, slice_duration):
 
     print('Slicing complete!')
 
+
 # Example usage
-file_path = 'path/to/your/audio/file.wav'
+file_path = 'path/to/your/audio/file'
 slice_duration = 10  # seconds
 
 slice_audio(file_path, slice_duration)
